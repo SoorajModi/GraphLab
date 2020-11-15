@@ -11,8 +11,8 @@ int main(void) {
   addEdge(graph, 2, 3);
   addEdge(graph, 2, 4);
   addEdge(graph, 3, 4);
-  addEdge(graph, 4, 5);
   addEdge(graph, 4, 1);
+  addEdge(graph, 4, 5);
 
   printGraph(graph);
 
@@ -48,7 +48,7 @@ Vertex* createVertex(int value) {
 }
 
 AdjVertex* createAdjVertex(int value) {
-  AdjVertex* node = malloc(sizeof(AdjListNode));
+  AdjVertex* node = malloc(sizeof(AdjVertex));
 
   node->value = value;
   node->next = NULL;
@@ -105,7 +105,7 @@ void printGraph(Graph* graph) {
   if (!vertex) printf("No vertices in the graph\n");
 
   while (vertex) {
-    AdjListNode* adjNode = vertex->adjList;
+    AdjVertex* adjNode = vertex->adjList;
     printf("Vertex %d has edges with vertices: ", vertex->value);
 
     if (adjNode) {
