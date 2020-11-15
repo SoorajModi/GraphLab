@@ -23,7 +23,7 @@ Graph* createGraph();
 Vertex* newVertex(int value);
 AdjListNode* newAdjListNode(int value);
 void addVertex(Graph* graph, int value);
-void addAdjListNode(AdjListNode* node, int value);
+void addAdjListNode(Vertex* vertex, int value);
 void addEdge(Graph* graph, int vertex1, int vertex2);
 void printGraph(Graph* graph);
 int checkForVertex(Graph* graph, int src);
