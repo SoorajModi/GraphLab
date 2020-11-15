@@ -15,6 +15,14 @@ int main(void) {
   
   printGraph(graph);
   
+  printf("Checking for Vertex 5: %d\n", checkForVertex(graph, 5));
+  printf("Checking for Vertex 6: %d\n", checkForVertex(graph, 6));
+
+  printf("Number of vertices: %d\n", getNumVertices(graph));
+  printf("Number of edges: %d\n", getNumEdges(graph));
+
+  freeGraph(graph);
+
   return 0;
 }
 
@@ -64,8 +72,9 @@ void addVertex(Graph* graph, int value) {
 
 void addAdjListNode(Vertex* vertex, int value) {
   AdjListNode* node = vertex->adjList;
+  
   if (node == NULL) {
-    node = newAdjListNode(value);
+    vertex->adjList = newAdjListNode(value);
   } else if (node) {
     while(node->next) {
       node = node->next;
@@ -112,16 +121,25 @@ void printGraph(Graph* graph) {
   }
 }
 
-int checkVertices(Graph* graph, int src) {
+int checkForVertex(Graph* graph, int src) {
   Vertex* vertex = graph->vertexList;
 
   while (vertex) {
     if (vertex->value == src) {
       return 1;
     }
+    vertex = vertex->next;
   }
 
   return 0;
+}
+
+int getNumVertices(Graph* graph) {
+  return graph->numVertices;
+}
+
+int getNumEdges(Graph* graph) {
+  return graph->numEdges;
 }
 
 void freeGraph(Graph* graph) {
@@ -130,22 +148,18 @@ void freeGraph(Graph* graph) {
 }
 
 void freeVertexList(Vertex* node) {
-  while (node->next) {
+  while (node) {
     Vertex* next = node->next;
     freeAdjList(node->adjList);
     free(node);
     node = next;
-  }
-
-  free(node);
+  } 
 }
 
 void freeAdjList(AdjListNode* node) {
-  while (node->next) {
+  while (node) {
     AdjListNode* next = node->next;
     free(node);
     node = next;
   }
-
-  free(node);
 }

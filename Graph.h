@@ -27,6 +27,8 @@ void addAdjListNode(Vertex* vertex, int value);
 void addEdge(Graph* graph, int vertex1, int vertex2);
 void printGraph(Graph* graph);
 int checkForVertex(Graph* graph, int src);
+int getNumVertices(Graph* graph);
+int getNumEdges(Graph* graph);
 void freeGraph(Graph* graph);
 void freeVertexList(Vertex* list);
 void freeAdjList(AdjListNode* list);
