@@ -1,7 +1,12 @@
 #include "Graph.h"
 
 int main(void) {
-  printf("Hello world\n");
+  Graph* graph = createGraph();
+  if(graph) printf("Yes\n");
+  for (int i = 1; i < 6; i++) {
+    addVertex(graph, i);
+  }
+  printGraph(graph);
   return 0;
 }
 
@@ -18,6 +23,7 @@ Graph* createGraph() {
 Vertex* newVertex(int value) {
   Vertex* vertex = malloc(sizeof(Vertex));
 
+  vertex->value = value;
   vertex->adjList = NULL;
   vertex->next = NULL;
 
@@ -37,7 +43,7 @@ void addVertex(Graph* graph, int value) {
   Vertex* vertex = graph->vertexList;
 
   if (vertex == NULL) {
-    vertex = newVertex(value);
+    graph->vertexList = newVertex(value);
   } else if (vertex) {
     while (vertex->next) {
       vertex = vertex->next;
@@ -76,7 +82,7 @@ void addEdge(Graph* graph, int vertex1, int vertex2) {
 
 void printGraph(Graph* graph) {
   Vertex* vertex = graph->vertexList;
-
+  if (!vertex) printf("no vertex\n");
   while (vertex) {
     AdjListNode* adjNode = vertex->adjList;
     printf("Vertex %d has edges with vertices:", vertex->value);
