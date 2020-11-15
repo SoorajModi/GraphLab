@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct adjListNode {
+typedef struct adjVertex {
   int value;
-  struct adjListNode* next;
-} AdjListNode;
+  struct adjVertex* next;
+} AdjVertex;
 
 typedef struct vertex {
   int value;
-  AdjListNode* adjList;    // Should always point to head
+  AdjVertex* adjList;    // Should always point to head
   struct vertex* next;
 } Vertex;
 
@@ -20,10 +20,10 @@ typedef struct graph {
 } Graph;
 
 Graph* createGraph();
-Vertex* newVertex(int value);
-AdjListNode* newAdjListNode(int value);
+Vertex* createVertex(int value);
+AdjVertex* createAdjVertex(int value);
 void addVertex(Graph* graph, int value);
-void addAdjListNode(Vertex* vertex, int value);
+void addAdjVertex(Vertex* vertex, int value);
 void addEdge(Graph* graph, int vertex1, int vertex2);
 void printGraph(Graph* graph);
 int checkForVertex(Graph* graph, int src);
@@ -31,4 +31,4 @@ int getNumVertices(Graph* graph);
 int getNumEdges(Graph* graph);
 void freeGraph(Graph* graph);
 void freeVertexList(Vertex* list);
-void freeAdjList(AdjListNode* list);
+void freeAdjVertexList(AdjVertex* list);

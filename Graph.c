@@ -2,19 +2,20 @@
 
 int main(void) {
   Graph* graph = createGraph();
-  
+
   for (int i = 1; i < 6; i++) {
     addVertex(graph, i);
   }
-  
+
   addEdge(graph, 1, 2);
   addEdge(graph, 2, 3);
+  addEdge(graph, 2, 4);
   addEdge(graph, 3, 4);
   addEdge(graph, 4, 5);
   addEdge(graph, 4, 1);
-  
+
   printGraph(graph);
-  
+
   printf("Checking for Vertex 5: %d\n", checkForVertex(graph, 5));
   printf("Checking for Vertex 6: %d\n", checkForVertex(graph, 6));
 
@@ -36,7 +37,7 @@ Graph* createGraph() {
   return graph;
 }
 
-Vertex* newVertex(int value) {
+Vertex* createVertex(int value) {
   Vertex* vertex = malloc(sizeof(Vertex));
 
   vertex->value = value;
@@ -46,8 +47,8 @@ Vertex* newVertex(int value) {
   return vertex;
 }
 
-AdjListNode* newAdjListNode(int value) {
-  AdjListNode* node = malloc(sizeof(AdjListNode));
+AdjVertex* createAdjVertex(int value) {
+  AdjVertex* node = malloc(sizeof(AdjListNode));
 
   node->value = value;
   node->next = NULL;
@@ -59,27 +60,27 @@ void addVertex(Graph* graph, int value) {
   Vertex* vertex = graph->vertexList;
 
   if (vertex == NULL) {
-    graph->vertexList = newVertex(value);
+    graph->vertexList = createVertex(value);
   } else if (vertex) {
     while (vertex->next) {
       vertex = vertex->next;
     }
-    vertex->next = newVertex(value);
+    vertex->next = createVertex(value);
   }
 
   graph->numVertices++;
 }
 
-void addAdjListNode(Vertex* vertex, int value) {
-  AdjListNode* node = vertex->adjList;
-  
+void addAdjVertex(Vertex* vertex, int value) {
+  AdjVertex* node = vertex->adjList;
+
   if (node == NULL) {
-    vertex->adjList = newAdjListNode(value);
+    vertex->adjList = createAdjVertex(value);
   } else if (node) {
     while(node->next) {
       node = node->next;
     }
-    node->next = newAdjListNode(value);
+    node->next = createAdjVertex(value);
   }
 }
 
@@ -88,9 +89,9 @@ void addEdge(Graph* graph, int vertex1, int vertex2) {
 
   while (vertex) {
     if (vertex->value == vertex1) {
-      addAdjListNode(vertex, vertex2);
+      addAdjVertex(vertex, vertex2);
     } else if (vertex->value == vertex2) {
-      addAdjListNode(vertex, vertex1);
+      addAdjVertex(vertex, vertex1);
     }
     vertex = vertex->next;
   }
@@ -100,9 +101,9 @@ void addEdge(Graph* graph, int vertex1, int vertex2) {
 
 void printGraph(Graph* graph) {
   Vertex* vertex = graph->vertexList;
-  
-  if (!vertex) printf("no vertex\n");
-  
+
+  if (!vertex) printf("No vertices in the graph\n");
+
   while (vertex) {
     AdjListNode* adjNode = vertex->adjList;
     printf("Vertex %d has edges with vertices: ", vertex->value);
@@ -110,7 +111,7 @@ void printGraph(Graph* graph) {
     if (adjNode) {
       while (adjNode) {
         printf("%d ", adjNode->value);
-	adjNode = adjNode->next;
+	      adjNode = adjNode->next;
       }
     } else if (adjNode == NULL) {
       printf("no adjacencent vertices");
@@ -150,15 +151,15 @@ void freeGraph(Graph* graph) {
 void freeVertexList(Vertex* node) {
   while (node) {
     Vertex* next = node->next;
-    freeAdjList(node->adjList);
+    freeAdjVertexList(node->adjList);
     free(node);
     node = next;
-  } 
+  }
 }
 
-void freeAdjList(AdjListNode* node) {
+void freeAdjVertexList(AdjVertex* node) {
   while (node) {
-    AdjListNode* next = node->next;
+    AdjVertex* next = node->next;
     free(node);
     node = next;
   }
